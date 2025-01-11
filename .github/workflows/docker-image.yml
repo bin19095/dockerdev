@@ -17,7 +17,7 @@ jobs:
 
     - name: Run tests
       run: docker run -e CI=true bin19095/dockerdev npm run test
-    steps:
+    
     - name: Deploy to Elastic Beanstalk
       uses: samuelmeuli/action-elastic-beanstalk@v1
       with:
