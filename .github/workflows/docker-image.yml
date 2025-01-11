@@ -31,8 +31,8 @@ jobs:
         aws s3 cp deployment.zip s3://elasticbeanstalk-ap-southeast-2-038462780116/frontend-rj/
         aws elasticbeanstalk create-application-version \
           --application-name "frontend-rj" \
-          --version-label "v-${{ github.run_number }}" \
+          - --version-label "v-${{ github.run_number }}-${{ github.sha }}" \
           --source-bundle S3Bucket=elasticbeanstalk-ap-southeast-2-038462780116,S3Key=frontend-rj/deployment.zip
         aws elasticbeanstalk update-environment \
           --environment-name "Frontend-rj-env" \
-          --version-label "v-${{ github.run_number }}"   
+           --version-label "v-${{ github.run_number }}-${{ github.sha }}"   
