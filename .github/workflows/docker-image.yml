@@ -25,14 +25,13 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-southeast-2  
     
-    - name: Deploy to Elastic Beanstalk
-      run: |
-        zip -r deployment.zip .
-        aws s3 cp deployment.zip s3://elasticbeanstalk-ap-southeast-2-038462780116/frontend-rj/
-        aws elasticbeanstalk create-application-version \
-          --application-name "frontend-rj" \
-          - --version-label "v-${{ github.run_number }}-${{ github.sha }}" \
-          --source-bundle S3Bucket=elasticbeanstalk-ap-southeast-2-038462780116,S3Key=frontend-rj/deployment.zip
-        aws elasticbeanstalk update-environment \
-          --environment-name "Frontend-rj-env" \
-          --version-label "v-${{ github.run_number }}-${{ github.sha }}"   
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v22
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: 'frontend-rj'
+        environment_name: 'Frontend-rj-env'
+        version_label: {{ github.sha }}
+        region: ap-southeast-2
+        deployment_package: deploy.zip   
