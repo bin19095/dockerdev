@@ -35,4 +35,4 @@ jobs:
           --source-bundle S3Bucket=elasticbeanstalk-ap-southeast-2-038462780116,S3Key=frontend-rj/deployment.zip
         aws elasticbeanstalk update-environment \
           --environment-name "Frontend-rj-env" \
-           --version-label "v-${{ github.run_number }}-${{ github.sha }}"   
+          --version-label "v-${{ github.run_number }}-${{ github.sha }}"   
