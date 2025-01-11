@@ -17,6 +17,9 @@ jobs:
 
     - name: Run tests
       run: docker run -e CI=true bin19095/dockerdev npm run test
+    
+    - name: Create deployment package
+      run: zip -r deployment.zip .
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v22
