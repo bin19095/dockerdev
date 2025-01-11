@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on:
+  push:
+    branch: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -t bin19095/dockerdev:latest -f Dockerfile.dev .
+
+    - name: Run tests
+      run: docker run -e CI=true bin19095/dockerdev npm run test
