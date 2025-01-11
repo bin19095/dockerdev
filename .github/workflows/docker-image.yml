@@ -19,12 +19,13 @@ jobs:
       run: docker run -e CI=true bin19095/dockerdev npm run test
     
     - name: Deploy to Elastic Beanstalk
-      uses: samuelmeuli/action-elastic-beanstalk@v1
-      with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ap-southeast-2
-        application_name: frontend-rj
-        environment_name: Frontend-rj-env
-        version_label: v-${{ github.run_number }}
-        deployment_package: deployment.zip    
+        run: |
+          zip -r deployment.zip .
+          aws s3 cp deployment.zip s3://elasticbeanstalk-ap-southeast-2-038462780116/frontend-rj/
+          aws elasticbeanstalk create-application-version \
+            --application-name "frontend-rj" \
+            --version-label "v-${{ github.run_number }}" \
+            --source-bundle S3Bucket=elasticbeanstalk-ap-southeast-2-038462780116,S3Key=frontend-rj/deployment.zip
+          aws elasticbeanstalk update-environment \
+            --environment-name "Frontend-rj-env" \
+            --version-label "v-${{ github.run_number }}"   
