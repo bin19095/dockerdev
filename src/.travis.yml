@@ -17,4 +17,4 @@ deploy:
   bucket_path: "frontend-rj"
   on:
     branch: main
-#ACCESS_KEY= ACCESSPass=zS7WNjkjLYuCAPndDndTaINcNqcLXJ/zzm770W/B
+
