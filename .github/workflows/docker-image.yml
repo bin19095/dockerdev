@@ -22,21 +22,16 @@ jobs:
         run: docker run --rm -e CI=true bin19095/dockerdev npm run test
 
       - name: Create Deployment Package
-        run: zip -r deployment.zip . -x '*.git'  # Exclude .git directory
-
-      - name: Configure AWS Credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ap-southeast-2
+        run: zip -r deployment.zip . -x '*.git'  
 
       - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v18
         with:
-          application_name: docker-gh
-          environment_name: Dockergh-env
-          existing_bucket_name: elasticbeanstalk-ap-southeast-2-038462780116  # Replace with your actual S3 bucket name
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: frontend1
+          environment_name: frontend-env1
+          existing_bucket_name: elasticbeanstalk-ap-southeast-2-038462780116  
           region: ap-southeast-2
           version_label: ${{ github.sha }}
           deployment_package: deployment.zip
-

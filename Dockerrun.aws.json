@@ -1,0 +1,14 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "bin19095/dockerdev:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "3000"
+      }
+    ],
+    "Logging": "/var/log/nginx"
+  }
+  
